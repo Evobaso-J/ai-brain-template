@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+agents/scripts/daily_sync.log
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Backups
+*.bak

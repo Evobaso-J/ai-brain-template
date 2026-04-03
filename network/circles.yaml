@@ -1,0 +1,21 @@
+# Relationship tier definitions
+
+inner:
+  description: "Close collaborators, trusted mentors, friends in tech"
+  touchpoint: "weekly"
+  members: []   # contact names for reference
+
+active:
+  description: "Current project partners, active collaborators, regular contacts"
+  touchpoint: "monthly"
+  members: []
+
+network:
+  description: "Industry connections, periodic contacts, interesting people"
+  touchpoint: "quarterly"
+  members: []
+
+dormant:
+  description: "Historical connections worth reactivating when relevant"
+  touchpoint: "as-needed"
+  members: []

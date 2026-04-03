@@ -1,0 +1,23 @@
+# OKRs and objectives
+# Updated quarterly
+
+current_quarter: ""   # e.g. Q2 2026
+
+objectives:
+  - objective: ""
+    key_results:
+      - kr: ""
+        target: ""
+        current: ""
+        status: "on-track|at-risk|done"
+    notes: ""
+
+  - objective: ""
+    key_results:
+      - kr: ""
+        target: ""
+        current: ""
+        status: "on-track|at-risk|done"
+    notes: ""
+
+previous_quarters: []

@@ -1,0 +1,22 @@
+# Skills tracker and learning goals
+# Proficiency: expert (5+ yrs) | proficient (2-5 yrs) | learning (<2 yrs)
+# Status: active | paused | done
+
+current_skills:
+  - name: ""
+    category: "language|framework|tool|concept"
+    proficiency: ""
+    notes: ""
+
+learning_goals:
+  - skill: ""
+    why: ""
+    resources: []
+    status: "active|paused"
+    target_date: ""
+
+quarterly_focus:
+  q: ""          # e.g. Q2 2026
+  goals:
+    - ""
+  retrospective: ""

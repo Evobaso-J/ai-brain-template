@@ -1,0 +1,27 @@
+# Core engineering values and beliefs
+# Used for decisions touching on professional choices and engineering philosophy
+
+core_values:
+  - name: ""          # e.g. Simplicity over cleverness
+    description: ""   # why this matters to you
+
+  - name: ""
+    description: ""
+
+  - name: ""
+    description: ""
+
+engineering_principles:
+  - ""  # e.g. Explicit is better than implicit
+  - ""  # e.g. Delete code before adding more
+  - ""  # e.g. Optimize for the reader, not the writer
+
+non_negotiables:
+  - ""  # e.g. No shipping without tests on critical paths
+  - ""  # e.g. Document decisions, not just implementations
+
+working_style:
+  collaboration: ""   # e.g. async-first, written over verbal
+  feedback: ""        # e.g. direct, specific, kind
+  learning: ""        # e.g. bias toward doing, learn by building
+  focus: ""           # e.g. deep work blocks, batched interruptions
