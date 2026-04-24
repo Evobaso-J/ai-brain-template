@@ -5,9 +5,14 @@ context through progressive disclosure.
 
 ## Architecture
 
-Three-level loading prevents context bloat:
+Two routing files, three-level loading:
 
-- **L1** `SKILL.md` — routes to the right module (always loaded)
+- `SKILL.md` — master manifest. Activation triggers, module tree, workflows, guidelines.
+- `AGENT.md` — behavioral rules, file conventions, request → action decision table.
+
+Loading levels:
+
+- **L1** `SKILL.md` — always loaded; routes to the right module
 - **L2** `MODULE.md` — domain instructions, loaded on demand
 - **L3** `.jsonl` / `.yaml` — structured data, loaded only when needed
 
@@ -22,6 +27,7 @@ Three-level loading prevents context bloat:
 | `operations/`  | Tasks, goals, decisions, metrics                    |
 | `engineering/` | Active projects, tech stack                         |
 | `agents/`      | Automation scripts                                  |
+| `skills/`      | Per-repo sub-skills (optional)                      |
 
 ## Design Principles
 
@@ -41,9 +47,24 @@ bash setup.sh
 This will:
 
 1. Install [Claude Code](https://claude.ai/download) if not already present
-2. Configure `~/.claude/CLAUDE.md` so Claude discovers ai-brain from any terminal
+2. Configure `~/.claude/CLAUDE.md` (global only) so Claude discovers ai-brain from any terminal and reads `SKILL.md` first
 3. Grant read/write permissions to the repo in `~/.claude/settings.json`
-4. Set up a daily GitHub sync via launchd (macOS only)
+4. Set up automatic git sync (macOS via launchd, Linux via systemd)
+
+## Sync
+
+The repo auto-syncs on every edit:
+
+| Trigger | What happens |
+| --------------- | ----------------------------------------------- |
+| File edit (30s debounce) | `git pull --rebase --autostash` → commit → push |
+
+Single daemon (`watch_and_push.sh`) via launchd (macOS) or systemd (Linux). Logs: `agents/scripts/sync.log`.
+
+### Prerequisites
+
+- **macOS**: `brew install fswatch`
+- **Linux**: `sudo apt install inotify-tools` (or `sudo dnf install inotify-tools`)
 
 ## Usage
 
