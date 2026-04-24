@@ -36,10 +36,23 @@ Loading levels:
 - **Voice-first** — `identity/voice.md` read before any external content
 - **Cross-module references** — knowledge → content, network → operations
 
-## Setup
+## Quick start
+
+One command — creates your own private versioned copy from this template, clones it, runs setup:
 
 ```bash
-git clone https://github.com/<your-username>/ai-brain.git
+NAME=ai-brain && gh repo create "$NAME" --template Evobaso-J/ai-brain-template --private --clone && cd "$NAME" && bash setup.sh
+```
+
+Requires the [GitHub CLI](https://cli.github.com) (`gh auth login` if first time). Change `NAME` to whatever you want to call your brain.
+
+Prefer the UI? Click **Use this template → Create a new repository** at the top of [this repo](https://github.com/Evobaso-J/ai-brain-template), clone your new repo, then `bash setup.sh`.
+
+## Setup
+
+If you already have a clone and just need to run the setup:
+
+```bash
 cd ai-brain
 bash setup.sh
 ```
