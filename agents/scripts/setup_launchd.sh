@@ -1,42 +1,60 @@
 #!/bin/bash
-# Sets up the daily sync launchd agent for this machine.
+# Installs launchd file watcher for auto git sync (macOS).
 # Run once after cloning: bash agents/scripts/setup_launchd.sh
 
 REPO="$(cd "$(dirname "$0")/../.." && pwd)"
-SCRIPT="$REPO/agents/scripts/daily_sync.sh"
-LOG="$REPO/agents/scripts/daily_sync.log"
-PLIST="$HOME/Library/LaunchAgents/com.ai-brain.daily-sync.plist"
+SCRIPTS="$REPO/agents/scripts"
+LOG="$SCRIPTS/sync.log"
 
-chmod +x "$SCRIPT"
+chmod +x "$SCRIPTS/watch_and_push.sh"
 
-cat > "$PLIST" <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
+CURRENT_PATH="$PATH"
+
+# Clean up any legacy cron-style agents from earlier setup
+for legacy in com.ai-brain.daily-sync com.ai-brain.periodic-pull; do
+  launchctl unload "$HOME/Library/LaunchAgents/${legacy}.plist" 2>/dev/null
+  rm -f "$HOME/Library/LaunchAgents/${legacy}.plist"
+done
+
+install_plist() {
+  local label="$1" plist_content="$2"
+  local plist_path="$HOME/Library/LaunchAgents/${label}.plist"
+  launchctl unload "$plist_path" 2>/dev/null
+  echo "$plist_content" > "$plist_path"
+  launchctl load "$plist_path"
+  echo "Loaded: $label"
+}
+
+install_plist "com.ai-brain.watch-and-push" "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
 <dict>
   <key>Label</key>
-  <string>com.ai-brain.daily-sync</string>
+  <string>com.ai-brain.watch-and-push</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>$CURRENT_PATH</string>
+  </dict>
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string>
-    <string>$SCRIPT</string>
+    <string>$SCRIPTS/watch_and_push.sh</string>
   </array>
-  <key>StartCalendarInterval</key>
-  <dict>
-    <key>Hour</key>
-    <integer>23</integer>
-    <key>Minute</key>
-    <integer>0</integer>
-  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ThrottleInterval</key>
+  <integer>10</integer>
   <key>StandardOutPath</key>
   <string>$LOG</string>
   <key>StandardErrorPath</key>
   <string>$LOG</string>
 </dict>
-</plist>
-EOF
+</plist>"
 
-launchctl load "$PLIST"
-echo "Loaded: $PLIST"
-echo "Repo:   $REPO"
-echo "Runs daily at 23:00. To test now: launchctl start com.ai-brain.daily-sync"
+echo ""
+echo "Repo:  $REPO"
+echo "Agent: watch-and-push (pull + push on every edit, 30s debounce)"
+echo "Log:   $LOG"

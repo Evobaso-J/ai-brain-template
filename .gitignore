@@ -3,6 +3,8 @@
 Thumbs.db
 
 # Logs
+*.log
+agents/scripts/sync.log
 agents/scripts/daily_sync.log
 
 # Editor
